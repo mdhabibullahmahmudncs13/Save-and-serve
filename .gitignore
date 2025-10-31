@@ -39,3 +39,6 @@ temp/
 # Build outputs
 dist/
 out/
+
+# Sensitive documentation
+APPWRITE_SETUP.md
