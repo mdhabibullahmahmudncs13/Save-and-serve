@@ -57,7 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         COLLECTIONS.USERS,
         userId
       )
-      setUser(userDoc as User)
+      setUser(userDoc as unknown as User)
     } catch (error) {
       console.error('Error fetching user profile:', error)
     }
@@ -103,10 +103,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      await account.createEmailSession(email, password)
+      await account.createEmailPasswordSession(email, password)
       const session = await account.get()
       await fetchUserProfile(session.$id)
     } catch (error) {
+      console.error('Login error:', error)
       throw error
     }
   }
@@ -130,7 +131,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         user.$id,
         data
       )
-      setUser(updatedUser as User)
+      setUser(updatedUser as unknown as User)
     } catch (error) {
       throw error
     }

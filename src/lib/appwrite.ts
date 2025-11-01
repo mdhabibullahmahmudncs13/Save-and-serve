@@ -2,9 +2,15 @@ import { Client, Account, Databases, Storage, Functions } from 'appwrite'
 
 const client = new Client()
 
+// Ensure environment variables are available
+const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1'
+const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || '6904de5900377a4859fc'
+
+console.log('Appwrite Config:', { endpoint, projectId })
+
 client
-  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
-  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!)
+  .setEndpoint(endpoint)
+  .setProject(projectId)
 
 export const account = new Account(client)
 export const databases = new Databases(client)
