@@ -101,7 +101,9 @@ docker compose up -d --scale appwrite-worker-audits=3
 - `$createdAt` (datetime) - Creation timestamp
 - `$updatedAt` (datetime) - Last modification timestamp
 
-Only add the custom attributes listed below.
+Appwrite enforces a maximum of 18 attributes per collection (this may include system attributes depending on your plan). To stay safe across environments, keep your *custom* attributes to 15 or fewer. For any extra metadata or optional fields, use a single JSON/string field called `metadata` where you can store arbitrary key/value data (e.g. serialized JSON). This keeps your schema flexible and within Appwrite limits.
+
+Only add the custom attributes listed below (and consider using `metadata` for additional fields).
 
 #### Users Collection
 - **Collection ID**: `users`
@@ -122,7 +124,8 @@ Only add the custom attributes listed below.
   { "key": "zipCode", "type": "string", "size": 10, "required": false },
   { "key": "preferences", "type": "string", "size": 2000, "required": false },
   { "key": "lastActive", "type": "datetime", "required": false },
-  { "key": "timezone", "type": "string", "size": 50, "required": false }
+  { "key": "timezone", "type": "string", "size": 50, "required": false },
+  { "key": "metadata", "type": "string", "size": 2000, "required": false }
 ]
 ```
 
@@ -137,22 +140,17 @@ Only add the custom attributes listed below.
   { "key": "description", "type": "string", "size": 2000, "required": false },
   { "key": "email", "type": "string", "size": 255, "required": true },
   { "key": "phone", "type": "string", "size": 20, "required": false },
-  { "key": "website", "type": "string", "size": 255, "required": false },
   { "key": "address", "type": "string", "size": 500, "required": true },
   { "key": "city", "type": "string", "size": 100, "required": true },
   { "key": "state", "type": "string", "size": 100, "required": true },
   { "key": "zipCode", "type": "string", "size": 10, "required": true },
-  { "key": "taxId", "type": "string", "size": 50, "required": false },
   { "key": "isVerified", "type": "boolean", "required": true, "default": false },
   { "key": "verificationDate", "type": "datetime", "required": false },
   { "key": "servingAreas", "type": "string", "size": 2000, "required": false },
-  { "key": "capacity", "type": "integer", "required": false },
-  { "key": "operatingHours", "type": "string", "size": 1000, "required": false },
   { "key": "contactPerson", "type": "string", "size": 255, "required": false },
   { "key": "logo", "type": "string", "size": 255, "required": false },
-  { "key": "certifications", "type": "string", "size": 1000, "required": false },
-  { "key": "specialRequirements", "type": "string", "size": 1000, "required": false },
-  { "key": "userId", "type": "string", "size": 255, "required": true }
+  { "key": "userId", "type": "string", "size": 255, "required": true },
+  { "key": "metadata", "type": "string", "size": 2000, "required": false }
 ]
 ```
 
@@ -166,32 +164,21 @@ Only add the custom attributes listed below.
   { "key": "title", "type": "string", "size": 255, "required": true },
   { "key": "description", "type": "string", "size": 2000, "required": false },
   { "key": "foodType", "type": "string", "size": 100, "required": true },
-  { "key": "category", "type": "string", "size": 100, "required": true },
   { "key": "quantity", "type": "integer", "required": true },
   { "key": "unit", "type": "string", "size": 50, "required": true },
-  { "key": "estimatedWeight", "type": "float", "required": false },
   { "key": "expiryDate", "type": "datetime", "required": false },
   { "key": "pickupAddress", "type": "string", "size": 500, "required": true },
   { "key": "pickupCity", "type": "string", "size": 100, "required": true },
   { "key": "pickupState", "type": "string", "size": 100, "required": true },
   { "key": "pickupZipCode", "type": "string", "size": 10, "required": true },
-  { "key": "pickupCoordinates", "type": "string", "size": 100, "required": false },
   { "key": "availableFrom", "type": "datetime", "required": true },
   { "key": "availableUntil", "type": "datetime", "required": true },
   { "key": "images", "type": "string", "size": 2000, "required": false },
-  { "key": "specialInstructions", "type": "string", "size": 1000, "required": false },
-  { "key": "storageRequirements", "type": "string", "size": 500, "required": false },
   { "key": "donorId", "type": "string", "size": 255, "required": true },
-  { "key": "donorName", "type": "string", "size": 255, "required": true },
-  { "key": "donorPhone", "type": "string", "size": 20, "required": false },
-  { "key": "donorEmail", "type": "string", "size": 255, "required": true },
   { "key": "status", "type": "string", "size": 50, "required": true, "default": "available" },
-  { "key": "priority", "type": "string", "size": 20, "required": false, "default": "normal" },
   { "key": "claimedBy", "type": "string", "size": 255, "required": false },
   { "key": "claimedAt", "type": "datetime", "required": false },
-  { "key": "completedAt", "type": "datetime", "required": false },
-  { "key": "cancelledAt", "type": "datetime", "required": false },
-  { "key": "cancellationReason", "type": "string", "size": 500, "required": false }
+  { "key": "metadata", "type": "string", "size": 2000, "required": false }
 ]
 ```
 
@@ -210,15 +197,13 @@ Only add the custom attributes listed below.
   { "key": "scheduledTimeEnd", "type": "string", "size": 50, "required": true },
   { "key": "actualPickupTime", "type": "datetime", "required": false },
   { "key": "status", "type": "string", "size": 50, "required": true, "default": "scheduled" },
-  { "key": "pickupNotes", "type": "string", "size": 1000, "required": false },
   { "key": "pickupPersonName", "type": "string", "size": 255, "required": false },
   { "key": "pickupPersonPhone", "type": "string", "size": 20, "required": false },
   { "key": "actualQuantity", "type": "integer", "required": false },
-  { "key": "actualWeight", "type": "float", "required": false },
   { "key": "completedAt", "type": "datetime", "required": false },
   { "key": "rating", "type": "integer", "required": false },
   { "key": "feedback", "type": "string", "size": 1000, "required": false },
-  { "key": "issues", "type": "string", "size": 1000, "required": false }
+  { "key": "metadata", "type": "string", "size": 2000, "required": false }
 ]
 ```
 
